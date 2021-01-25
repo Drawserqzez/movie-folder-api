@@ -1,4 +1,5 @@
 # TODO
+- [ ] Learn Typescript
 - [ ] JWT auth middleware
 - [ ] db-simluation middleware
 - [ ] All required endpoints: 
