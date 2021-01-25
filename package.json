@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon server.js",
     "watch": "tsc -w",
-    "watch-node": "nodemon dist/server.js"
+    "watch-node": "nodemon ./build/server.js"
   },
   "author": "",
   "license": "ISC",
