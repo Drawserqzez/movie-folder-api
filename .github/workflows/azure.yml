@@ -2,8 +2,7 @@ name: Deploy to Azure
 
 on:
   push: 
-    branches: 
-      dist
+    branches: [ dist ]
 
 env:
   AZURE_WEBAPP_NAME: movie-folder    
