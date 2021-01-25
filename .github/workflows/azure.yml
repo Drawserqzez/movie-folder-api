@@ -2,11 +2,12 @@ name: Deploy to Azure
 
 on:
   push: 
-    branches: [ dist ]
+    branches: 
+      - dist
 
 env:
-  AZURE_WEBAPP_NAME: movie-folder    
-  AZURE_WEBAPP_PACKAGE_PATH: './build/'     
+  AZURE_WEBAPP_NAME: 'movie-folder'
+  AZURE_WEBAPP_PACKAGE_PATH: 'build/'     
   NODE_VERSION: '14.x'               
 
 jobs:
