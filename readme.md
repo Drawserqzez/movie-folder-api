@@ -1,0 +1,15 @@
+# TODO
+- [ ] JWT auth middleware
+- [ ] db-simluation middleware
+- [ ] All required endpoints: 
+    - [ ] Movies -> Get
+    - [ ] Movies -> Post
+    - [ ] Movies -> Put
+    - [ ] Movies -> Delete
+    - [ ] Folders -> Get
+    - [ ] Folders -> Post
+    - [ ] Folders -> Put
+    - [ ] Folders -> Delete
+    - [ ] Login
+    - [ ] Register
+    - [ ] /me

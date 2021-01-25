@@ -1,3 +1,6 @@
+# Do not upload pipeline to github
+azure-pipelines.yml
+
 # Logs
 logs
 *.log
