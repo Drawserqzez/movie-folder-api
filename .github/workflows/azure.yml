@@ -1,7 +1,7 @@
 on:
   push: 
     branches: 
-      - dist
+      dist
 
 env:
   AZURE_WEBAPP_NAME: movie-folder    
