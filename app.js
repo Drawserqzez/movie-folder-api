@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = require("express");
-const auth_1 = require("../src/routes/auth");
+const auth_1 = require("./routes/auth");
 const app = express();
 app.set("port", process.env.PORT || 3000);
 app.use(express.json());
