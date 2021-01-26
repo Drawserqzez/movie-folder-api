@@ -1,4 +1,4 @@
-name: Build ts-app and push result to dist-branch
+name: CI
 
 on: 
   push: 
@@ -18,7 +18,7 @@ jobs:
         uses: actions/setup-node@v2.1.4
         with: 
           node-version: 10
-      - name: Build TS and push to dist branch
+      - name: Build TS
         run: |
           npm install
           npm run build-ts
