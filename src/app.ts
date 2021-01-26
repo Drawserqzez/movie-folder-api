@@ -11,7 +11,7 @@ app.use('/auth/', authRouter);
 
 app.get("/", (req, res) => {
     res.json({
-        'message': 'Hello world!'
+        'message': 'Hello world! This is an API!'
     });
 });
 
