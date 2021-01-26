@@ -5,8 +5,7 @@ name: Build and deploy Node.js app to Azure Web App - movie-folders
 
 on:
   push:
-    branches:
-      - dist
+    branches: [ dist ]
   workflow_dispatch:
    inputs:
 
