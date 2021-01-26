@@ -9,7 +9,7 @@ app.use(express.json());
 app.use('/auth/', auth_1.authRouter);
 app.get("/", (req, res) => {
     res.json({
-        'message': 'Hello world!'
+        'message': 'Hello world! This is an API!'
     });
 });
 exports.default = app;
