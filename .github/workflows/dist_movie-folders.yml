@@ -7,6 +7,8 @@ on:
   push:
     branches:
       - dist
+  workflow_dispatch:
+   inputs:
 
 jobs:
   build-and-deploy:
