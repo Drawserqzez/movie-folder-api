@@ -1,0 +1,31 @@
+name: Build ts-app and push result to dist-branch
+
+on: 
+  push: 
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  
+jobs: 
+  ts-build: 
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v2.1.4
+        with: 
+          node-version: 14
+      - name: Build TS and push to dist branch
+        run: |
+          npm install
+          npm run build-ts
+
+      - name: Deploy to dist-branch
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: dist
+          FOLDER: build
+          CLEAN: true
+          

@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node ./build/server.js",
     "watch": "tsc -w",
-    "watch-node": "nodemon ./build/server.js"
+    "watch-node": "nodemon ./build/server.js",
+    "build-ts": "tsc && cp package.json build/ && cp package-lock.json build/"
   },
   "author": "",
   "license": "ISC",

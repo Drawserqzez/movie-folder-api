@@ -1,5 +1,5 @@
-# Do not upload pipeline to github
-azure-pipelines.yml
+# Don't bother uploading build folder
+./build/
 
 # Logs
 logs
