@@ -1,5 +1,5 @@
 import express = require('express');
-import { authRouter } from '../src/routes/auth';
+import { authRouter } from './routes/auth';
 
 const app = express();
 app.set("port", process.env.PORT || 3000);

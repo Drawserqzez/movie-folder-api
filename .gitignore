@@ -1,5 +1,5 @@
 # Don't bother uploading build folder
-./build/
+build/
 
 # Logs
 logs
