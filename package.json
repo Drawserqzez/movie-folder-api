@@ -4,7 +4,7 @@
   "description": "- [ ] JWT auth middleware\r - [ ] db-simluation middleware\r - [ ] All required endpoints: \r     - [ ] Movies -> Get\r     - [ ] Movies -> Post\r     - [ ] Movies -> Put\r     - [ ] Movies -> Delete\r     - [ ] Folders -> Get\r     - [ ] Folders -> Post\r     - [ ] Folders -> Put\r     - [ ] Folders -> Delete\r     - [ ] Login\r     - [ ] Register\r     - [ ] /me",
   "main": "server.js",
   "scripts": {
-    "start": "node ./build/Server.js",
+    "start": "node Server.js",
     "dev": "ts-node-dev --respawn --clear ./src/Server.ts",
     "watch": "tsc -w",
     "watch-node": "nodemon ./build/Server.js",

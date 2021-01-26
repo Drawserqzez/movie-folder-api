@@ -5,6 +5,8 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch:
+    input:
   
 jobs: 
   ts-build: 
@@ -15,7 +17,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v2.1.4
         with: 
-          node-version: 14
+          node-version: 10
       - name: Build TS and push to dist branch
         run: |
           npm install
