@@ -4,14 +4,15 @@
 name: Build and deploy Node.js app to Azure Web App - movie-folders
 
 on:
-  push: 
-    branches: [ dist ]
-#  workflow_run: 
-#    workflows: [ "CI" ]
-#    branches: [ main ]
-#    types: 
-#      - completed 
   workflow_dispatch:
+    
+  #push: 
+    #branches: [ dist ]
+  workflow_run: 
+    workflows: [ "CI" ]
+    branches: [ main ]
+    types: 
+      - completed 
 
 jobs:
   build-and-deploy:
