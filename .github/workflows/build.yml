@@ -15,7 +15,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with: 
-          token: ${{ ACCESS_TOKEN }}
+          token: ${{ secrets.ACCESS_TOKEN }}
       - name: Setup Node.js
         uses: actions/setup-node@v2.1.4
         with: 
