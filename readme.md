@@ -1,7 +1,7 @@
 # TODO
 - [ ] Learn Typescript
 - [ ] JWT auth middleware
-- [ ] db-simluation middleware
+- [ ] Database service covering all CRUD-operations
 - [ ] All required endpoints: 
     - [ ] Movies -> Get
     - [ ] Movies -> Post
