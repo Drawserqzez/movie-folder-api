@@ -1,11 +1,11 @@
 import IUser from '../interfaces/IUser';
-import db from '../services/databaseService';
+import db from '../services/userService';
 import express = require('express');
 import jwt = require('jsonwebtoken');
 
 import { genSaltSync, hashSync, compareSync } from 'bcryptjs';
 import UserLevel from '../interfaces/UserLevel';
-export const authRouter:express.Router = express.Router();
+export const authRouter:express.IRouter = express.Router();
 
 authRouter.post('/signup', (req, res, next) => {
     let user: IUser = {
@@ -70,24 +70,63 @@ authRouter.post('/signin', (req, res, next) => {
         }
         else {
             console.log('passwords match...');
-            let payload = {
+            const authPayload = {
                 'sub': userFromDB._id.toString(),
                 'username': userFromDB.username,
                 'userLevel': userFromDB.userLevel.toString(),
             };
 
+            const refreshPayload = {
+                'sub': userFromDB._id.toString()
+            };
+
             const secret: string = process.env.JWT_SECRET_KEY;
-            const token = jwt.sign(payload, secret, { 'expiresIn': '1d'});
+            const authToken = jwt.sign(authPayload, secret, { 'expiresIn': '1d' });
+            const refreshToken = jwt.sign(refreshPayload, secret, { 'expiresIn': '7d' })
             
             res.status(200).json({
                 'message': 'Signin successful.',
-                'token': token,
+                'authToken': authToken,
+                'refreshToken': refreshToken
             });
         }
     }).catch((err) => {
-        res.json({
-            'message': 'Invalid credentials.',
+        res.status(400).json({
+            'message': err.message || 'Invalid credentials',
             'username': user.username
         });
     });
-}) 
+});
+
+authRouter.post('/refresh', (req, res, next) => {
+    const refreshToken = req.body.token;
+    const secret = process.env.JWT_SECRET_KEY;
+    
+    if (refreshToken) {
+        jwt.verify(refreshToken, secret, (err: Error) => {
+            if (err) return res.sendStatus(400);
+
+            const refreshPayload = jwt.decode(refreshToken, { 'json': true });
+
+            db.getUserById(refreshPayload.sub).then((user) => {
+                if (!user) return res.sendStatus(400);
+
+                const newPayload = {
+                    'sub': user._id,
+                    'username': user.username,
+                    'userLevel': user.userLevel.toString(),
+                };
+
+                const refreshedToken = jwt.sign(newPayload, secret, { 'expiresIn': '1d' });
+
+                return res.status(200).json({
+                    'message': 'Token refreshed',
+                    'token': refreshedToken
+                });
+            });
+        })
+    }
+    else {
+        res.sendStatus(400);
+    }
+})

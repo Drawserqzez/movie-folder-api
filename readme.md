@@ -1,6 +1,6 @@
 # TODO
 - [ ] Learn Typescript
-- [ ] JWT auth middleware
+- [x] JWT auth middleware
 - [ ] Database service covering all CRUD-operations
 - [ ] All required endpoints: 
     - [ ] Movies -> Get
@@ -11,6 +11,6 @@
     - [ ] Folders -> Post
     - [ ] Folders -> Put
     - [ ] Folders -> Delete
-    - [ ] Login
-    - [ ] Register
+    - [x] Login
+    - [x] Register
     - [ ] /me
