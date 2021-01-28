@@ -1,6 +1,6 @@
 import monk, { ICollection, IObjectID } from 'monk';
 import IMovie from '../interfaces/IMovie';
-import IUser from '../interfaces/Iuser';
+import IUser from '../interfaces/IUser';
 import IMovieCollection from '../interfaces/IMovieCollection';
 import 'dotenv/config';
 
