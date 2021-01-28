@@ -11,19 +11,26 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const monk_1 = require("monk");
 require("dotenv/config");
-let users;
-const db = monk_1.default(process.env.MONGODB_URI).then((db) => {
-    console.log('Connected to the server :D');
-    users = db.get('users');
-    if (users === undefined || users === null) {
-        console.log('users collection not found, creating....');
-        users = db.create('users');
-        console.log('created!');
-    }
-    console.log('Got data from cloud...');
-}).catch((err) => {
-    console.log(err.message);
-});
+const uri = process.env.MONGODB_URI;
+exports.default = {
+    checkDuplicateUser,
+    getUsers,
+    getUserByName,
+    getUserById,
+    postUser
+};
+function getUserCollectionFromDB() {
+    console.log('connecting to db...');
+    return monk_1.default(uri).then((db) => {
+        let users = db.get('users');
+        if (users === null || users === undefined) {
+            console.log('user collection not found, creating...');
+            users = db.create('users');
+        }
+        console.log('got users');
+        return users;
+    });
+}
 function checkDuplicateUser(userToTest) {
     return __awaiter(this, void 0, void 0, function* () {
         let userFromDb = yield getUserByName(userToTest.username);
@@ -32,33 +39,30 @@ function checkDuplicateUser(userToTest) {
 }
 function getUsers() {
     return __awaiter(this, void 0, void 0, function* () {
+        let users = yield getUserCollectionFromDB();
         let result = yield users.find();
         return result;
     });
 }
 function getUserByName(username) {
     return __awaiter(this, void 0, void 0, function* () {
+        let users = yield getUserCollectionFromDB();
         let user = yield users.findOne({ 'username': username });
         return user;
     });
 }
 function getUserById(userId) {
     return __awaiter(this, void 0, void 0, function* () {
+        let users = yield getUserCollectionFromDB();
         let user = yield users.findOne({ '_id': userId });
         return user;
     });
 }
 function postUser(user) {
     return __awaiter(this, void 0, void 0, function* () {
+        let users = yield getUserCollectionFromDB();
         let insertedUser = yield users.insert(user);
         return insertedUser._id;
     });
 }
-exports.default = {
-    checkDuplicateUser,
-    getUsers,
-    getUserByName,
-    getUserById,
-    postUser
-};
-//# sourceMappingURL=databaseService.js.map
+//# sourceMappingURL=userService.js.map

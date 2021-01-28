@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.authRouter = void 0;
-const databaseService_1 = require("../services/databaseService");
+const userService_1 = require("../services/userService");
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const bcryptjs_1 = require("bcryptjs");
@@ -22,7 +22,7 @@ exports.authRouter.post('/signup', (req, res, next) => {
             });
         }
         else {
-            databaseService_1.default.checkDuplicateUser(user).then((isDuplicate) => {
+            userService_1.default.checkDuplicateUser(user).then((isDuplicate) => {
                 if (isDuplicate) {
                     res.status(400).json({
                         'message': 'That username is taken',
@@ -32,7 +32,7 @@ exports.authRouter.post('/signup', (req, res, next) => {
                 else {
                     let salt = bcryptjs_1.genSaltSync();
                     user.password = bcryptjs_1.hashSync(user.password, salt);
-                    databaseService_1.default.postUser(user).then((userId) => {
+                    userService_1.default.postUser(user).then((userId) => {
                         res.status(201).json({
                             'message': 'Created user',
                             'createdUserId': userId
@@ -55,7 +55,7 @@ exports.authRouter.post('/signin', (req, res, next) => {
         password: req.body.password,
         userLevel: UserLevel_1.default.User
     };
-    databaseService_1.default.getUserByName(user.username).then((userFromDB) => {
+    userService_1.default.getUserByName(user.username).then((userFromDB) => {
         if (userFromDB === null) {
             throw new Error('Invalid credentials.');
         }
@@ -65,23 +65,56 @@ exports.authRouter.post('/signin', (req, res, next) => {
         }
         else {
             console.log('passwords match...');
-            let payload = {
+            const authPayload = {
                 'sub': userFromDB._id.toString(),
                 'username': userFromDB.username,
                 'userLevel': userFromDB.userLevel.toString(),
             };
+            const refreshPayload = {
+                'sub': userFromDB._id.toString()
+            };
             const secret = process.env.JWT_SECRET_KEY;
-            const token = jwt.sign(payload, secret, { 'expiresIn': '1d' });
+            const authToken = jwt.sign(authPayload, secret, { 'expiresIn': '1d' });
+            const refreshToken = jwt.sign(refreshPayload, secret, { 'expiresIn': '7d' });
             res.status(200).json({
                 'message': 'Signin successful.',
-                'token': token,
+                'authToken': authToken,
+                'refreshToken': refreshToken
             });
         }
     }).catch((err) => {
-        res.json({
-            'message': 'Invalid credentials.',
+        res.status(400).json({
+            'message': err.message || 'Invalid credentials',
             'username': user.username
         });
     });
 });
-//# sourceMappingURL=auth.js.map
+exports.authRouter.post('/refresh', (req, res, next) => {
+    const refreshToken = req.body.token;
+    const secret = process.env.JWT_SECRET_KEY;
+    if (refreshToken) {
+        jwt.verify(refreshToken, secret, (err) => {
+            if (err)
+                return res.sendStatus(400);
+            const refreshPayload = jwt.decode(refreshToken, { 'json': true });
+            userService_1.default.getUserById(refreshPayload.sub).then((user) => {
+                if (!user)
+                    return res.sendStatus(400);
+                const newPayload = {
+                    'sub': user._id,
+                    'username': user.username,
+                    'userLevel': user.userLevel.toString(),
+                };
+                const refreshedToken = jwt.sign(newPayload, secret, { 'expiresIn': '1d' });
+                return res.status(200).json({
+                    'message': 'Token refreshed',
+                    'token': refreshedToken
+                });
+            });
+        });
+    }
+    else {
+        res.sendStatus(400);
+    }
+});
+//# sourceMappingURL=authRouter.js.map
