@@ -17,8 +17,5 @@ app.get("/", (req, res) => {
         'message': 'Hello world! This is an API!'
     });
 });
-app.get("/birthday/", (req, res) => {
-    res.send('Grattis på födelsedagen! Den här tjänsten är grunden för ett digitaliserat system för pärmarna som jag har jobbat på det senaste. Det är inte riktigt klart än, men du kan nog vänta dig att allting är i sin ordning innan mars.\nKram <3 Algot');
-});
 exports.default = app;
 //# sourceMappingURL=app.js.map
